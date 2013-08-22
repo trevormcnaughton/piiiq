@@ -1,0 +1,36 @@
+// Utilities
+$sprites: sprite-map("1x/*.png");
+$sprites2x: sprite-map("2x/*.png");
+
+@mixin sprite-background($name) {
+  background-repeat: no-repeat;
+  display: block;
+  text-indent: -999em;
+  background-image: sprite-url($sprites);
+  background-position: sprite-position( $sprites, $name );
+  height: image-height(sprite-file( $sprites, $name ));
+  width: image-width(sprite-file( $sprites, $name ));
+  
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+         only screen and (min--moz-device-pixel-ratio: 1.5),
+         only screen and (min-resolution: 240dpi){
+         
+    background-image: sprite-url($sprites2x);
+    background-position: 0 round( nth( sprite-position( $sprites2x, $name ), 2 ) / 2 );
+    height: round( image-height( sprite-file( $sprites2x, $name )) / 2);
+    width: round( image-width( sprite-file( $sprites2x, $name )) / 2);
+    
+    @include background-size( ceil( image-width( sprite-path( $sprites2x )) / 2) auto );
+  }
+}
+@mixin cf {
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+  *zoom: 1;
+}
